@@ -7,12 +7,19 @@
 -vue-form
 
 --build
+
 --config
+
 --src
+
 --static
+
 --test
+
 --index.html
+
 package.json
+
 -readme.md
 ## Build Setup
 
