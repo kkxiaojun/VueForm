@@ -6,8 +6,8 @@
       <span>hope</span>
     </div>
     <div class="login-wrap">
-      <button>login</button>
-      <button>register</button>
+      <span class="login btn b-blue f-white">登陆</span>
+      <span class="register btn b-transparent">注册</span>
     </div>
     <nav class="nav">
       <a href="">产品</a>
@@ -30,6 +30,7 @@ export default {};
   z-index: 500;
   .header {
     height: 50px;
+    line-height: 50px;
     width: 100%;
     padding: 0 40px;
     box-sizing: border-box;
@@ -43,6 +44,7 @@ export default {};
     .nav {
       float: right;
       a {
+        margin: 0 10px;
         color: @color-a;
         text-decoration: none;
         &:hover {
@@ -52,6 +54,51 @@ export default {};
     }
     .login-wrap {
       float: right;
+      .login{
+        border: 1px solid #43b3e6;
+        &:hover {
+          background-color: #43b3e6;
+        }
+      }
+      .register{
+        border: 1px solid #B3B3B3;
+        &:hover{
+          color: #00a0e9;
+          border-color: #00a0e9;
+        }
+      }
+      .btn {
+        display: inline-block;
+        padding: 2px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border-radius: 4px;
+      }
+      .b-blue {
+        background-color: #00a0e9;
+      }
+      .b-white{
+        background-color: #fff;
+      }
+      .b-transparent{
+        background-color: transparent;
+      }
+      .f-white{
+        color: #fff;
+      }
     }
   }
 }

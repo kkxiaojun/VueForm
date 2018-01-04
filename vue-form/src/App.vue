@@ -4,7 +4,6 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <m-footer></m-footer>
   </div>
 </template>
 
