@@ -1,9 +1,8 @@
 <template>
-  <div class="login">
+  <div class="login" style="position:absolute;">
     <div class="top-bar">
       <div class="logo">
-        <img src="" alt="">
-        <span>hope</span>
+        <img src="../../common/images/logo_transparent.png" alt="logo">
       </div>
     </div>
     <section class="container">
@@ -24,8 +23,8 @@
               </div>
               <div class="login-auto">
                 <div class="auto-left">
-                <input type="radio" name="auto">
-                <label for="auto">自动登陆</label>
+                  <input type="radio" name="auto">
+                  <label for="auto">自动登陆</label>
                 </div>
                 <div class="auto-right">
                   <span class="forget">忘记密码</span>
@@ -33,7 +32,7 @@
                 </div>
               </div>
               <div class="login-w">
-                <span class="login btn b-blue f-white" @click="go">登陆</span>
+                <span class="btn b-blue f-white" @click="go">登陆</span>
               </div>
             </div>
           </div>
@@ -41,19 +40,17 @@
       </div>
     </section>
     <m-footer></m-footer>
-  </div>  
+  </div>
 </template>
 <script>
 import MFooter from "@/components/m-footer/footer";
 export default {
-  data: function(){
-    return{
-
-    }
+  data: function() {
+    return {};
   },
-  methods:{
-    go(){
-      this.$router.push('/form');
+  methods: {
+    go() {
+      this.$router.push("/form");
     }
   },
   components: {
@@ -63,22 +60,22 @@ export default {
 </script>
 <style lang="less" scoped>
 .login {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: url("~common/images/login_bg.jpg") no-repeat;
+  background-size: cover;
+  background-position: center center;
   .top-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 75px;
-    line-height: 75px;
-    width: 100%;
-    padding: 0 40px;
-    background: #fff;
-    font-size: 16px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    border-top: 2px solid #2b4870;
+    // border-top: 2px solid #2b4870;
     border-bottom: 1px solid #c1c1c1;
     z-index: 1000;
     .logo {
       float: left;
+      img {
+        height: 75px;
+      }
     }
   }
   .container {
@@ -89,9 +86,12 @@ export default {
       padding-top: 50px;
       .login-bar {
         width: 100%;
-        border: 1px solid #ccc;
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
         border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
         .title {
           text-align: center;
           padding: 20px 0;
@@ -119,15 +119,15 @@ export default {
                 padding: 11px 10px;
                 vertical-align: middle;
                 color: #4d4d4d;
-                border: 1px solid #dddddd;
+                border: none;
                 font-size: 14px;
-                // outline: 0;
-                transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
-              }
-              .ui-input:focus {
                 outline: none;
-                border: 1px solid #7fbcee;
-                box-shadow: 0 1px 3px rgba(41, 44, 211, 0.2);
+                border-bottom: 1px solid #7fbcee;
+                transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+                &:focus{
+                  border-bottom: 1px solid #7fbcee;;
+                  // outline: none;
+                }
               }
             }
             .login-auto {
@@ -153,6 +153,11 @@ export default {
         }
       }
     }
+  }
+  footer {
+    background-color: none;
+    border-top: none;
+    color: #fff;
   }
 }
 </style>

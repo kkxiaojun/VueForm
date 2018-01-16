@@ -2,8 +2,7 @@
   <div class="signup">
     <div class="top-bar">
       <div class="logo">
-        <img src="" alt="">
-        <span>hope</span>
+        <img src="../../common/images/logo.png" alt="logo">
       </div>
     </div>
     <section class="container">
@@ -67,6 +66,9 @@ export default {
     z-index: 1000;
     .logo {
       float: left;
+      img{
+        height: 75px;
+      }
     }
   }
   .container {

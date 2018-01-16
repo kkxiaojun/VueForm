@@ -15,14 +15,13 @@ footer {
   position: fixed;
   bottom: 0px;
   width: 100%;
-  background-color: #f4f4f4;
-  border-top: 2px solid #e9e9e9;
+  // background-color: #f4f4f4;
+  // border-top: 2px solid #e9e9e9;
   padding: 10px;
   overflow: hidden;
   margin: 0px auto;
   .copyright{
     font-size: 12px;
-    color: #666;
     text-align: center;
   }
 }

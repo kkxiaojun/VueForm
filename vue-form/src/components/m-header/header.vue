@@ -2,8 +2,7 @@
 <div class="header-wrap clearfix">
   <div class="header">
     <div class="logo">
-      <img src="" alt="">
-      <span>hope</span>
+      <img src="../../common/images/logo.png" alt="logo">
     </div>
     <div class="login-wrap">
       <router-link class="login btn b-blue f-white" to="/login">登陆</router-link>
