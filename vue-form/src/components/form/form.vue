@@ -7,11 +7,6 @@
           <div class="circle blue"></div>
         </div>
         <form class="blue" id="dropArea">
-          <!--<div class="circle"></div>-->
-          <!--<div class="form-group">
-						    <label for="exampleInputEmail1">Email address</label>
-						    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-						  </div>-->
         </form>
       </div>
       <div class="operate">
@@ -33,7 +28,7 @@
             <el-input v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item label="活动区域">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
+            <el-select v-model="form.region" placeholder="请选择活动区域">˜
               <el-option label="区域一" value="shanghai"></el-option>
               <el-option label="区域二" value="beijing"></el-option>
             </el-select>

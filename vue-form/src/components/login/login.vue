@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     go() {
-      this.$router.push("/form");
+      this.$router.push("/main");
     }
   },
   components: {
