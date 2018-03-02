@@ -6,7 +6,7 @@
       </div>
       <nav class="nav">
         <router-link to="">135，欢迎你！</router-link>
-        <router-link to="">
+        <router-link to="/help">
           <i class="el-icon-question"></i> 帮助</router-link>
         <router-link to="/home">注销</router-link>
       </nav>
@@ -17,27 +17,73 @@
           <el-menu-item-group>
             <div v-for="(item,index) in menu" @mouseover="toggleShow(index)" @mouseout="toggleHide(index)">
               <el-menu-item class="menu-item" :index="index.toString()">
-                <span @dblclick="toggle(item.value)">{{item.value}}</span>
-                <el-input v-if="aside.toggle" @blur="blur()" v-model="aside.curInput" placeholder="审批人"></el-input>
-                <i v-if="item.deleteShow" @click="deleteItem(index)" class="el-icon-remove-outline m-left"></i>
+                <span :class="{'hide': index==aside.curIndex}" @dblclick="toggle(item.value,index)">{{item.value}}</span>
+                <input :class="{'hide': index!=aside.curIndex}" @blur="blur(index)" v-model="aside.curInput" autofocus v-focus>
+                <i v-if="item.deleteShow" @click.stop="deleteItem(index)" class="el-icon-close m-left"></i>
               </el-menu-item>
             </div>
             <el-button @click="addItem()" class="el-icon-plus add-item" type="primary" plain>添加分组</el-button>
           </el-menu-item-group>
         </el-menu>
       </el-aside>
-      <el-container>
-        <el-header style="text-align: right; font-size: 12px">
+      <el-container class="inner-container" style="background-color: #f7f7f7;">
+        <el-header>
           <el-dropdown>
-            <i class="el-icon-setting" style="margin-right: 15px"></i>
+            <el-button type="primary">
+              <i class="el-icon-plus add-item"></i>
+              创建菜单
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>查看</el-dropdown-item>
-              <el-dropdown-item>新增</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
+              <div class="box-item" @click="goSelf()">自定义模版</div>
+              <div class="box-item" @click="goModel()">从模版选择</div>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>王小虎</span>
+          <i class="el-icon-menu"></i>
         </el-header>
+        <el-main>
+          <el-row>
+            <el-col :span="8">
+              <div class="grid-content bg-purple">
+                <el-card style="width:280px;" class="box-card">
+                  <div slot="header" class="clearfix">
+                    <span>卡片名称</span>
+                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                  </div>
+                  <div v-for="o in 4" :key="o" class="text item">
+                    {{'列表内容 ' + o }}
+                  </div>
+                </el-card>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div class="grid-content bg-purple-light">
+                <el-card style="width:280px;" class="box-card">
+                  <div slot="header" class="clearfix">
+                    <span>卡片名称</span>
+                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                  </div>
+                  <div v-for="o in 4" :key="o" class="text item">
+                    {{'列表内容 ' + o }}
+                  </div>
+                </el-card>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div class="grid-content bg-purple">
+                <el-card style="width:280px;" class="box-card">
+                  <div slot="header" class="clearfix">
+                    <span>卡片名称</span>
+                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                  </div>
+                  <div v-for="o in 4" :key="o" class="text item">
+                    {{'列表内容 ' + o }}
+                  </div>
+                </el-card>
+              </div>
+            </el-col>
+          </el-row>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -46,19 +92,11 @@
 export default {
   data() {
     return {
-      menu: [
-        {
-          value: "选项一",
-          deleteShow: false
-        },
-        {
-          value: "选项二",
-          deleteShow: false
-        }
-      ],
+      menu: [],
       aside: {
-        toggel: false,
-        curInput: ""
+        toggle: false,
+        curInput: "",
+        curIndex: -1
       }
     };
   },
@@ -71,28 +109,42 @@ export default {
     },
     deleteItem(key) {
       let vThis = this;
-      this._arrEach(key, function(curIndex) {
+      this._arrEach(key, curIndex => {
         vThis.menu.splice(curIndex, 1);
       });
     },
-    toggle(value) {
+    toggle(value, index) {
       this.aside.curInput = value;
+      this.aside.curIndex = index;
       this.aside.toggle = true;
     },
-    blur() {
+    blur(index) {
+      let vThis = this;
+      this.aside.curInput;
       this.aside.toggle = false;
+      this._arrEach(index, curIndex => {
+        vThis.menu[curIndex].value = this.aside.curInput;
+        this.aside.curInput = "";
+        this.aside.curIndex = -1;
+      });
     },
     toggleShow(index) {
       let vThis = this;
-      this._arrEach(index, function(curIndex) {
+      this._arrEach(index, curIndex => {
         vThis.menu[curIndex].deleteShow = true;
       });
     },
     toggleHide(index) {
       let vThis = this;
-      this._arrEach(index, function(curIndex) {
+      this._arrEach(index, curIndex => {
         vThis.menu[curIndex].deleteShow = false;
       });
+    },
+    goSelf() {
+      this.$router.push("/customform");
+    },
+    goModel() {
+      this.$router.push("/modelform");
     },
     _arrEach(index, callback) {
       this.menu.forEach((ele, item) => {
@@ -101,11 +153,32 @@ export default {
         }
       });
     }
+  },
+  directives: {
+    focus: {
+      // 指令的定义
+      inserted: function(el) {
+        console.log(el);
+        el.focus();
+      }
+    }
   }
 };
 </script>
 <style lang="less" scoped>
 @import "~common/less/variable";
+
+.box-item {
+  font-size: 14px;
+  padding: 5px 10px;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    background: #409eff;
+    color: #fff;
+  }
+}
+
 .main-wrap {
   position: fixed;
   top: 0;
@@ -144,11 +217,19 @@ export default {
     }
   }
   .container {
+    position: relative;
     height: 100%;
     border: 1px solid #eee;
     .aside {
-      background-color: rgb(238, 241, 246);
+      border-right: 1px solid #e1e1e1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       .menu-item {
+        input{
+          outline: none;
+          border: 1px solid#409eff;
+          // padding: 2px 4px;
+          height: 20px;
+        }
         .m-left {
           color: #ea8787;
           margin-left: 80px;
@@ -163,6 +244,39 @@ export default {
         position: fixed;
         transform: translateX(40%);
         bottom: 10px;
+      }
+      .hide {
+        display: none;
+      }
+    }
+    .el-container {
+      padding: 0 50px;
+      .el-header {
+        height: 60px;
+        line-height: 60px;
+        text-align: right;
+        .el-button {
+          position: relative;
+          padding: 8px 12px;
+        }
+        .el-dropdown {
+          height: 43px;
+          vertical-align: top;
+        }
+      }
+      .inner-container {
+        .el-main {
+          width: auto;
+          position: absolute;
+          left: 200px;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          overflow: auto;
+        }
+        .box-card {
+          width: 250px;
+        }
       }
     }
   }
