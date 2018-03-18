@@ -8,6 +8,8 @@ import ModelForm from '@/components/form/model_form'
 import Help from '@/components/help/help'
 import Person from '@/components/person/person'
 import Main from '@/components/main'
+import Preview from '@/components/form/PreviewForm'
+
 Vue.use(Router)
 
 export default new Router({
@@ -41,6 +43,11 @@ export default new Router({
       path: '/modelform',
       name: 'ModelForm',
       component: ModelForm
+    },
+    {
+      path: '/preview',
+      name: 'preview',
+      component: Preview
     },
     {
       path: '/main',

@@ -15,9 +15,21 @@
       <el-aside width="200px" class="aside">
         <el-col>
           <div class="menu-title" @click="goBack()">
-            <i class="el-icon-back"></i>返回</div>
-          <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-            <el-submenu index="1">
+            <i class="el-icon-back"></i>返回
+          </div>
+          <el-menu default-active="2" :unique-opened="true" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+            <el-submenu v-for="(item,index) in menu" :key="index" :index="item.index">
+              <template slot="title">
+                <i class="el-icon-location"></i>
+                <span>{{item.title}}</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item v-for="(child,index) in item.childMenu" :key="index" :index="child.index" @click="openModel()">
+                  <span>{{child.title}}</span>
+                </el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <!-- <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>行业分类</span>
@@ -48,27 +60,13 @@
                 <el-menu-item index="3-1">选项1</el-menu-item>
                 <el-menu-item index="3-2">选项2</el-menu-item>
               </el-menu-item-group>
-            </el-submenu>
+            </el-submenu>-->
           </el-menu>
         </el-col>
       </el-aside>
       <div class="col1">
         <ul class="col1-menu">
-          <li class="col1-item">餐饮</li>
-          <li class="col1-item">体育</li>
-          <li class="col1-item">餐饮</li>
-          <li class="col1-item">体育</li>
-          <li class="col1-item">餐饮</li>
-          <li class="col1-item">体育</li>
-          <li class="col1-item">餐饮</li>
-          <li class="col1-item">体育</li>
-          <li class="col1-item">餐饮</li>
-          <li class="col1-item">体育</li>
-          <li class="col1-item">餐饮</li>
-          <li class="col1-item">体育</li>
-          <li class="col1-item">餐饮</li>
-          <li class="col1-item">体育</li>
-          <li class="col1-item">餐饮</li>
+          <li class="col1-item" v-for="(item, index) in subMenu" :key="index">{{item.title}}</li>
         </ul>
       </div>
       <div class="col2">
@@ -83,7 +81,17 @@
                 <h1>经营情况报表</h1>
                 <div class="side">请各位店长每天22:00前登记此表，年底将作为考核依据。</div>
               </div>
-              <div class="form-content"></div>
+              <div class="form-content">
+                <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+                  <el-form-item v-for="(item, index) in components" :key="index">
+                    <label for="">{{item.label}}</label>
+                    <el-input size="small" v-model="item.value"></el-input>
+                  </el-form-item>
+                </el-form>
+                <div class="btn">
+                  <el-button size="small">提交</el-button>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -93,6 +101,100 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      labelPosition: "top",
+      formLabelAlign: {
+        name: "",
+        region: "",
+        type: ""
+      },
+      menu: [
+        {
+          title: "行业类",
+          index: "1",
+          childMenu: [
+            {
+              title: "教育",
+              index: "1-1"
+            }
+          ]
+        },
+        {
+          title: "功能／用途",
+          index: "2",
+          childMenu: [
+            {
+              title: "保暖",
+              index: "2-1"
+            }
+          ]
+        },
+        {
+          title: "热点／专题",
+          index: "3",
+          childMenu: [
+            {
+              title: "教育",
+              index: "3-1"
+            }
+          ]
+        }
+      ],
+      subMenu: [
+        {
+          title: "预约定位"
+        },
+        {
+          title: "外卖点餐"
+        },
+        {
+          title: "满意度调查"
+        },
+        {
+          title: "经营情况日报表"
+        },
+        {
+          title: "会员卡登记表"
+        },
+        {
+          title: "试吃报名"
+        }
+      ],
+      components: [
+        {
+          label: "门店",
+          value:'',
+          type: "text"
+        },
+        {
+          label: "午餐人数",
+          value:'',
+          type: "text"
+        },
+        {
+          label: "晚餐人数",
+          value: '',
+          type: "text"
+        },
+        {
+          label: "团购券使用人数",
+          value: '',
+          type: "number"
+        },
+        {
+          label: "总营业额",
+          value: '',
+          type: "number"
+        },
+        {
+          label: "门店",
+          value: '',
+          type: "textarea"
+        }
+      ]
+    };
+  },
   methods: {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
@@ -158,7 +260,7 @@ export default {
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       .menu-title {
         padding: 10px 0 10px 24px;
-        font-size: 18px;
+        font-size: 16px;
         cursor: pointer;
         .el-icon-back {
           margin-right: 15px;
@@ -181,11 +283,11 @@ export default {
       border-top: 10px solid #409eff;
       // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       .col1-menu {
-        text-align: center;
+        text-align: left;
         font-size: 14px;
         color: #9a9898;
         .col1-item {
-          padding: 5px 0;
+          padding: 10px 0 10px 10px;
           .active {
             background: #409eff;
             color: #fff;
@@ -208,11 +310,14 @@ export default {
       overflow: auto;
       background: url("../../common/images/form_model/model_1.jpg") no-repeat;
       .model-box {
+        width: 610px;
+        margin: 0 auto;
         .btn-wrap {
           margin-bottom: 20px;
           text-align: right;
         }
         .content-wrap {
+          padding-bottom: 40px;
           .logo {
             height: 360px;
             background-image: url("../../common/images/form_model/model_1_title.png");
@@ -220,11 +325,34 @@ export default {
           }
           .content-form {
             background: #fff;
-            padding: 30px 20px;
+            padding: 30px 0;
             font-size: 14px;
-            h1{
-              font-size: 24px;
-              padding: 3px 0;
+            .form-title {
+              padding: 10px 20px;
+              border-bottom: 1px dashed #ccc;
+              h1 {
+                font-size: 24px;
+                padding: 3px 0;
+              }
+            }
+            .form-content {
+              padding: 10px 20px;
+              .el-form {
+                label {
+                  display: block;
+                  line-height: 20px;
+                }
+                .el-input {
+                  width: 240px;
+                }
+              }
+              .btn {
+                width: 90%;
+                .el-button {
+                  background: #745e92;
+                  color: #fff;
+                }
+              }
             }
           }
         }

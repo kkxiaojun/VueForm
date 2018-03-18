@@ -31,7 +31,7 @@
           <el-dropdown>
             <el-button type="primary">
               <i class="el-icon-plus add-item"></i>
-              创建菜单
+              创建表单
               <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
@@ -48,7 +48,7 @@
                 <el-card style="width:280px;" class="box-card">
                   <div slot="header" class="clearfix">
                     <span>卡片名称</span>
-                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                    <el-button style="float: right; padding: 3px 0" @click="open" type="text">操作按钮</el-button>
                   </div>
                   <div v-for="o in 4" :key="o" class="text item">
                     {{'列表内容 ' + o }}
@@ -61,7 +61,7 @@
                 <el-card style="width:280px;" class="box-card">
                   <div slot="header" class="clearfix">
                     <span>卡片名称</span>
-                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                    <el-button style="float: right; padding: 3px 0" @click="open" type="text">操作按钮</el-button>
                   </div>
                   <div v-for="o in 4" :key="o" class="text item">
                     {{'列表内容 ' + o }}
@@ -74,7 +74,7 @@
                 <el-card style="width:280px;" class="box-card">
                   <div slot="header" class="clearfix">
                     <span>卡片名称</span>
-                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                    <el-button style="float: right; padding: 3px 0" @click="open" type="text">操作按钮</el-button>
                   </div>
                   <div v-for="o in 4" :key="o" class="text item">
                     {{'列表内容 ' + o }}
@@ -92,7 +92,16 @@
 export default {
   data() {
     return {
-      menu: [],
+      menu: [
+        {
+          value: '2018',
+          deleteShow: false
+        },
+        {
+          value: '2017',
+          deleteShow: false
+        }
+      ],
       aside: {
         toggle: false,
         curInput: "",
@@ -145,6 +154,9 @@ export default {
     },
     goModel() {
       this.$router.push("/modelform");
+    },
+    open(){
+      this.$router.push('/customform');
     },
     _arrEach(index, callback) {
       this.menu.forEach((ele, item) => {
