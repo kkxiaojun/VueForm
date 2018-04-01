@@ -28,19 +28,19 @@
         <div class="leftForm left">
           <div class="form-title">通用字段</div>
           <draggable element="ul" :list="components" class="form-type clearfix dragArea" :options="componentsOptions" :clone="onClone">
-            <li v-for="component in components" class="collection-item">
+            <li v-for="(component, index) in components" :key="index" class="collection-item">
               <i :class="getIcon(component.type)"></i> {{component.label}}
             </li>
           </draggable>
           <div class="form-title mt-36">常用信息</div>
           <draggable element="ul" :list="components1" class="form-type clearfix dragArea" :options="componentsOptions" :clone="onClone">
-            <li v-for="component in components1" class="collection-item">
+            <li v-for="(component, index) in components1" :key="index" class="collection-item">
               <i :class="getIcon(component.type)"></i> {{component.label}}
             </li>
           </draggable>
           <div class="form-title mt-36">其它字段</div>
           <draggable element="ul" :list="components2" class="form-type clearfix dragArea" :options="componentsOptions" :clone="onClone">
-            <li v-for="component in components2" class="collection-item">
+            <li v-for="(component, index) in components2" :key="index" class="collection-item">
               <i :class="getIcon(component.type)"></i> {{component.label}}
             </li>
           </draggable>
@@ -663,9 +663,6 @@ export default {
                   color: #e26161;
                 }
               }
-            }
-            .el-input {
-              // width: 400px;
             }
           }
         }
