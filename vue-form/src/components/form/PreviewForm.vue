@@ -104,32 +104,44 @@
 </template>
 
 <script>
+import { getFormById } from "api/form";
 export default {
-  props: ["form"],
-  data() {
-    return {
-      check: {
-        checkRadio: "",
-        checkBox: []
-        // checkSelected: ""
-      }
-    };
+  props:['form'],
+    data() {
+      return {
+        check: {
+          checkRadio: "",
+          checkBox: []
+          // checkSelected: ""
+        }
+      };
+    },
+  beforeCreate: function() {
+    // let _this = this;
+    // getFormById(this.$route.params.id, res => {
+    //   if (res.status === 200) {
+    //     _this.form = res.data;
+    //   }
+    // });
   },
   methods: {}
 };
 </script>
 
 <style lang="less" scoped>
-.form{
+.form {
   width: 450px;
   margin: 0 auto;
   border: 1px solid rgb(38, 184, 228);
-  .head{
+  .head {
     height: 30px;
     background-color: #25a1c7;
   }
-  .content{
+  .content {
     padding: 13px;
+    .btn-container{
+      text-align: center;
+    }
   }
 }
 </style>

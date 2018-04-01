@@ -15,22 +15,18 @@
             <div class="form">
               <div class="form-row">
                 <label for="userno" class="ui-label">账号：</label>
-                <input type="text" class="ui-input" name="userno" placeholder="">
-              </div>
-              <div class="form-row">
-                <label for="username" class="ui-label">姓名：</label>
-                <input type="text" class="ui-input" name="username" placeholder="">
-              </div>              
+                <input type="text" v-model="user.username" class="ui-input" name="userno" placeholder="">
+              </div>           
               <div class="form-row">
                 <label for="password" class="ui-label">密码：</label>
-                <input type="password" class="ui-input" name="password" placeholder="">
+                <input type="password" v-model="user.password" class="ui-input" name="password" placeholder="">
               </div>
               <div class="form-row">
                 <label for="password" class="ui-label">密码确认：</label>
-                <input type="password" class="ui-input" name="password" placeholder="">
+                <input type="password" v-model="user.password1" class="ui-input" name="password" placeholder="">
               </div>              
               <div class="login-w">
-                <span class="login btn b-blue f-white" to="/login">注册</span>
+                <span class="login btn b-blue f-white" @click="register">注册</span>
               </div>
             </div>
           </div>
@@ -42,9 +38,29 @@
 </template>
 <script>
 import MFooter from "@/components/m-footer/footer";
+import {addUser} from "api/user"
 export default {
   components: {
     MFooter
+  },
+  data(){
+    return{
+      user:{
+        username:'',
+        password:'',
+        password1:''
+      }
+    }
+  },
+  methods:{
+    register(){
+      let _this = this;
+      addUser(this.user, res=>{
+        if(res.status === 200){
+          _this.$router.push('/login')
+        }
+      })
+    }
   }
 };
 </script>

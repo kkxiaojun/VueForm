@@ -15,11 +15,11 @@
             <div class="form">
               <div class="form-row">
                 <label for="username" class="ui-label">账号：</label>
-                <input type="text" class="ui-input" name="username" placeholder="6～18位，包含数字／字母">
+                <input type="text" class="ui-input" name="username" v-model="user.username" placeholder="6～18位，包含数字／字母">
               </div>
               <div class="form-row">
                 <label for="password" class="ui-label">密码：</label>
-                <input type="password" class="ui-input" name="password" placeholder="6～18位，包含数字／字母">
+                <input type="password" class="ui-input" v-model="user.password" name="password" placeholder="6～18位，包含数字／字母">
               </div>
               <div class="login-auto">
                 <div class="auto-left">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="auto-right">
                   <span class="forget">忘记密码</span>
-                  <span class="reg">注册</span>
+                  <router-link class="reg" to="/register">注册</router-link>
                 </div>
               </div>
               <div class="login-w">
@@ -44,13 +44,27 @@
 </template>
 <script>
 import MFooter from "@/components/m-footer/footer";
+import { getUser } from "api/user";
 export default {
   data: function() {
-    return {};
+    return {
+      user:{
+        username:'',
+        password: ''
+      }
+    };
   },
+  created() {},
   methods: {
     go() {
-      this.$router.push("/main");
+      var _this = this;
+      getUser(this.user,function(res) {
+        if (res.status === 200 && res.data.length>0) {
+          _this.$router.push("/main");
+        } else {
+
+        }
+      });
     }
   },
   components: {
@@ -124,8 +138,8 @@ export default {
                 outline: none;
                 border-bottom: 1px solid #7fbcee;
                 transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
-                &:focus{
-                  border-bottom: 1px solid #7fbcee;;
+                &:focus {
+                  border-bottom: 1px solid #7fbcee;
                   // outline: none;
                 }
               }

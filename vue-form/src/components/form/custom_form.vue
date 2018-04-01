@@ -19,7 +19,7 @@
         <div class="action-right" v-if="dropForm.formItems.length>0">
           <el-button type="primary" size="small" @click.stop="dialogPreview = true">预览</el-button>
           <el-button type="primary" size="small" @click.stop="save">保存</el-button>
-          <el-dialog title="预览" :fullscreen="true" custom-class="bg-color" :visible.sync="dialogPreview">
+          <el-dialog title="" :fullscreen="true" custom-class="bg-color" :visible.sync="dialogPreview">
             <preview-form :form="dropForm"></preview-form>
           </el-dialog>
         </div>
@@ -206,6 +206,7 @@
 <script>
 import PreviewForm from "./PreviewForm";
 import draggable from "vuedraggable";
+import { addForm, getFormById } from "api/form";
 export default {
   components: {
     draggable,
@@ -357,6 +358,7 @@ export default {
         range: "mdi mdi-ray-vertex"
       },
       dropForm: {
+        id: 1,
         title: "表单名称",
         formItems: []
       },
@@ -405,11 +407,39 @@ export default {
     removeItem(item, index) {
       this.dropForm.formItems.splice(index, 1);
     },
+    save() {
+      let _this = this;
+      addForm(this.dropForm, res => {
+        if (res.status === 200) {
+          _this.$message({
+            message: "保存成功",
+            type: "success"
+          });
+          _this.$router.push("/main");
+        }
+      });
+    },
     back() {
-      window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
+      this.$router.push("/main");
     }
   },
-  created: function() {},
+  beforeCreate: function() {},
+  created: function() {
+    let _this = this;
+    if (this.$route.params.id != 1) {
+      getFormById(this.$route.params.id, res => {
+        if (res.status === 200) {
+          _this.dropForm.id = res.data._id;
+          _this.dropForm.title = res.data.title;
+          _this.dropForm.formItems = res.data.form;
+        }
+      });
+    } else {
+      _this.dropForm.id = 1;
+      _this.dropForm.title = "表单名称";
+      _this.dropForm.formItems = [];
+    }
+  },
   mounted: function() {
     this.$nextTick(function() {
       // drag({
@@ -437,6 +467,7 @@ export default {
     }
   },
   watch: {
+    id() {},
     isDragging(newValue) {
       if (newValue) {
         this.delayedDragging = true;

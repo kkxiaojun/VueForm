@@ -41,43 +41,25 @@
           </el-dropdown>
           <i class="el-icon-menu"></i>
         </el-header>
-        <el-main>
+        <el-main class="el-main">
           <el-row>
-            <el-col :span="8">
+            <el-col :span="8" v-for="(item,index) in form" :key="index">
               <div class="grid-content bg-purple">
-                <el-card style="width:280px;" class="box-card">
+                <el-card style="width:280px;margin-bottom:20px;padding-bottom:30px;" class="box-card">
                   <div slot="header" class="clearfix">
-                    <span>卡片名称</span>
-                    <el-button style="float: right; padding: 3px 0" @click="open" type="text">操作按钮</el-button>
+                    <span>{{item.title}}</span>
+                    <el-button style="float: right; padding: 3px 0" @click="open(item._id)" type="text">查看</el-button>
                   </div>
-                  <div v-for="o in 4" :key="o" class="text item">
-                    {{'列表内容 ' + o }}
-                  </div>
-                </el-card>
-              </div>
-            </el-col>
-            <el-col :span="8">
-              <div class="grid-content bg-purple-light">
-                <el-card style="width:280px;" class="box-card">
-                  <div slot="header" class="clearfix">
-                    <span>卡片名称</span>
-                    <el-button style="float: right; padding: 3px 0" @click="open" type="text">操作按钮</el-button>
-                  </div>
-                  <div v-for="o in 4" :key="o" class="text item">
-                    {{'列表内容 ' + o }}
-                  </div>
-                </el-card>
-              </div>
-            </el-col>
-            <el-col :span="8">
-              <div class="grid-content bg-purple">
-                <el-card style="width:280px;" class="box-card">
-                  <div slot="header" class="clearfix">
-                    <span>卡片名称</span>
-                    <el-button style="float: right; padding: 3px 0" @click="open" type="text">操作按钮</el-button>
-                  </div>
-                  <div v-for="o in 4" :key="o" class="text item">
-                    {{'列表内容 ' + o }}
+                  <div class="text item clearfix">
+                    <div class="item-icon left">
+                      <i class="el-icon-info" title="数据"></i>
+                    </div>
+                    <div class="item-icon left" title="修改" @click="modifyForm(item._id)">
+                      <i class="el-icon-edit"></i>
+                    </div>
+                    <div class="item-icon left" title="删除" @click="removeForm(item._id)">
+                      <i class="el-icon-delete"></i>
+                    </div>
                   </div>
                 </el-card>
               </div>
@@ -89,16 +71,18 @@
   </div>
 </template>
 <script>
+import { getForm, removeForm } from "api/form";
 export default {
   data() {
     return {
+      form: [1, 2, 3],
       menu: [
         {
-          value: '2018',
+          value: "2018",
           deleteShow: false
         },
         {
-          value: '2017',
+          value: "2017",
           deleteShow: false
         }
       ],
@@ -108,6 +92,18 @@ export default {
         curIndex: -1
       }
     };
+  },
+  beforeCreate: function() {
+    var _this = this;
+    getForm(function(res) {
+      if (res.status === 200) {
+        _this.form = res.data;
+      }
+    });
+  },
+  created: function() {},
+  mounted: function() {
+    this.$nextTick(function() {});
   },
   methods: {
     addItem() {
@@ -120,6 +116,28 @@ export default {
       let vThis = this;
       this._arrEach(key, curIndex => {
         vThis.menu.splice(curIndex, 1);
+      });
+    },
+    modifyForm(id) {
+      this.$router.push("/customform/" + id);
+    },
+    removeForm(id) {
+      let _this = this;
+      removeForm(id, res => {
+        console.log(res);
+        if (res.status === 200) {
+          _this.$message({
+            message: "删除成功",
+            type: "success"
+          });
+          getForm(function(ress) {
+            if (ress.status === 200) {
+              _this.form = ress.data;
+            }
+          });
+        } else {
+          _this.$message.error("删除失败");
+        }
       });
     },
     toggle(value, index) {
@@ -150,13 +168,13 @@ export default {
       });
     },
     goSelf() {
-      this.$router.push("/customform");
+      this.$router.push("/customform/" + "1");
     },
     goModel() {
       this.$router.push("/modelform");
     },
-    open(){
-      this.$router.push('/customform');
+    open(id) {
+      window.open(location.origin + "/#/view?id=" + id, "_blank");
     },
     _arrEach(index, callback) {
       this.menu.forEach((ele, item) => {
@@ -170,7 +188,6 @@ export default {
     focus: {
       // 指令的定义
       inserted: function(el) {
-        console.log(el);
         el.focus();
       }
     }
@@ -190,7 +207,6 @@ export default {
     color: #fff;
   }
 }
-
 .main-wrap {
   position: fixed;
   top: 0;
@@ -236,7 +252,7 @@ export default {
       border-right: 1px solid #e1e1e1;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       .menu-item {
-        input{
+        input {
           outline: none;
           border: 1px solid#409eff;
           // padding: 2px 4px;
@@ -276,6 +292,18 @@ export default {
           vertical-align: top;
         }
       }
+        .item {
+          .item-icon {
+            font-size: 30px;
+            width: 33.333%;
+            text-align: center;
+            color: #8a8585;
+            cursor: pointer;
+            &:hover{
+              color: #409eff;
+            }
+          }
+        }
       .inner-container {
         .el-main {
           width: auto;

@@ -9,6 +9,7 @@ import Help from '@/components/help/help'
 import Person from '@/components/person/person'
 import Main from '@/components/main'
 import Preview from '@/components/form/PreviewForm'
+import View from '@/components/form/view'
 
 Vue.use(Router)
 
@@ -35,7 +36,7 @@ export default new Router({
       component: Register
     },
     {
-      path: '/customform',
+      path: '/customform/:id',
       name: 'customform',
       component: CustomForm
     },
@@ -45,7 +46,12 @@ export default new Router({
       component: ModelForm
     },
     {
-      path: '/preview',
+      path: '/view',
+      name:'View',
+      component: View
+    },
+    {
+      path: '/preview/:id',
       name: 'preview',
       component: Preview
     },

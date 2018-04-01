@@ -1,0 +1,23 @@
+{
+  "name": "vue-node",
+  "version": "1.0.0",
+  "description": "a server for vue-form",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "hope",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongodb": "^3.0.4",
+    "mongoose": "^5.0.11"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.2"
+  }
+}
