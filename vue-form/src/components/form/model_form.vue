@@ -29,38 +29,6 @@
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <!-- <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>行业分类</span>
-              </template>
-              <el-menu-item-group>
-                <el-menu-item index="1-1" @click="openModel()">
-                  <span>选项1</span>
-                </el-menu-item>
-                <el-menu-item index="1-2">选项2</el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-            <el-submenu index="2">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>功能/用途</span>
-              </template>
-              <el-menu-item-group>
-                <el-menu-item index="2-1">选项1</el-menu-item>
-                <el-menu-item index="2-2">选项2</el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-            <el-submenu index="3">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>热点/专题</span>
-              </template>
-              <el-menu-item-group>
-                <el-menu-item index="3-1">选项1</el-menu-item>
-                <el-menu-item index="3-2">选项2</el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>-->
           </el-menu>
         </el-col>
       </el-aside>
@@ -200,13 +168,10 @@ export default {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
     },
     openModel() {
-      console.log("pen");
     }
   }
 };

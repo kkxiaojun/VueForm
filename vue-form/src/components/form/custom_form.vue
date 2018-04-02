@@ -377,7 +377,6 @@ export default {
   },
   methods: {
     log(evt) {
-      console.log(evt);
     },
     onMove({ relatedContext, draggedContext }) {
       // const relatedElement = relatedContext.element;
