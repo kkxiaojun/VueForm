@@ -57,7 +57,7 @@
                   </el-form-item>
                 </el-form>
                 <div class="btn">
-                  <el-button size="small">提交</el-button>
+                  <el-button size="small" @click="save()">提交</el-button>
                 </div>
               </div>
             </form>
@@ -170,6 +170,9 @@ export default {
     handleOpen(key, keyPath) {
     },
     handleClose(key, keyPath) {
+    },
+    save(){
+        this.$router.push('/custom_form'+this.id);
     },
     openModel() {
     }
