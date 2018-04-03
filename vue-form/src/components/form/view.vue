@@ -17,7 +17,7 @@
                 </div>
                 <div v-else-if="['text', 'password', 'email'].includes(item.type)" class="item">
                   <div class="label">{{item.label}}</div>
-                  <el-input type="text" class="value"></el-input>
+                  <el-input v-model="item.value" class="value"></el-input>
                 </div>
                 <div v-else-if="['separate'].includes(item.type)" class="item">
                   <div class="label">{{item.label}}</div>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { getFormById } from "api/form";
+import { getFormById, addFormData } from "api/form";
 export default {
   data() {
     return {
@@ -128,7 +128,7 @@ export default {
   },
   methods: {
     save() {
-      saveForm(this.components, (res)=>{
+      addFormData(this.id, this.components, (res)=>{
         if(res.status === 200) {
           
         }

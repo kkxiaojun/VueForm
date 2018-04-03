@@ -3,11 +3,26 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const ObjectId = require('mongodb').ObjectId
 const form = require('../models/form')
+const formData = require('../models/form_data')
 
 router.get('/form/find', (req, res) => {
   form.find({})
     .then(form => {
       res.json(form)
+    })
+    .catch(err => {
+      res.json(err)
+    })
+})
+
+router.post('/form/data/add', (req, res)=>{
+    let params = {
+        id: ObjectId(req.body.id),
+        form: req.body.form,
+    }
+    formData.create(params)
+    .then(form => {
+      res.json(res)         
     })
     .catch(err => {
       res.json(err)

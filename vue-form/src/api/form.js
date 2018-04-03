@@ -58,3 +58,14 @@ export function removeForm(id, callback) {
       callback(err)
     })
 }
+
+export function addFormData(id, form, callback) {
+    axios({
+        method: 'post',
+        url: 'form/data/add',
+        data: {
+            id: id,
+            form: form
+        }
+    })
+}
