@@ -5,10 +5,10 @@
         <img src="../common/images/logo.png" alt="logo">
       </div>
       <nav class="nav">
-        <router-link to="">135，欢迎你！</router-link>
+        <router-link to="/person">{{user.username}},欢迎你</router-link>
         <router-link to="/help">
           <i class="el-icon-question"></i> 帮助</router-link>
-        <router-link to="/home">注销</router-link>
+        <span class="logout" @click="logout()">注销</span>
       </nav>
     </div>
     <el-container class="container">
@@ -52,7 +52,7 @@
                   </div>
                   <div class="text item clearfix">
                     <div class="item-icon left">
-                      <i class="el-icon-info" title="数据"></i>
+                      <i class="el-icon-info" title="数据" @click="checkData(item._id)"></i>
                     </div>
                     <div class="item-icon left" title="修改" @click="modifyForm(item._id)">
                       <i class="el-icon-edit"></i>
@@ -75,6 +75,9 @@ import { getForm, removeForm } from "api/form";
 export default {
   data() {
     return {
+      user:{
+        username: 'jjjj'
+      },
       form: [1, 2, 3],
       menu: [
         {
@@ -101,9 +104,14 @@ export default {
       }
     });
   },
-  created: function() {},
+  created: function() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+  },
   mounted: function() {
-    this.$nextTick(function() {});
+    let _this = this;
+    this.$nextTick(function() {
+      console.log(this.user)
+    });
   },
   methods: {
     addItem() {
@@ -118,13 +126,15 @@ export default {
         vThis.menu.splice(curIndex, 1);
       });
     },
+    checkData(id){
+      this.$router.push("/dataform/" + id);
+    },
     modifyForm(id) {
-      this.$router.push("/customform/" + id);
+      this.$router.push({name:'customform',params:{id:id,from:'self'}});
     },
     removeForm(id) {
       let _this = this;
       removeForm(id, res => {
-        console.log(res);
         if (res.status === 200) {
           _this.$message({
             message: "删除成功",
@@ -168,13 +178,17 @@ export default {
       });
     },
     goSelf() {
-      this.$router.push("/customform/" + "1");
+      this.$router.push({name: "customform", params:{id: '1',from:'new'}});
     },
     goModel() {
       this.$router.push("/modelform");
     },
     open(id) {
       window.open(location.origin + "/#/view?id=" + id, "_blank");
+    },
+    logout(){
+      localStorage.removeItem('user');
+      this.$router.push('/login');
     },
     _arrEach(index, callback) {
       this.menu.forEach((ele, item) => {
@@ -239,6 +253,12 @@ export default {
         color: @color-a;
         text-decoration: none;
         &:hover {
+          color: rgb(64, 153, 226);
+        }
+      }
+      .logout{
+        cursor: pointer;
+        &:hover{
           color: rgb(64, 153, 226);
         }
       }

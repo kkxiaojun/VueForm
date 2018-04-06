@@ -60,7 +60,8 @@ export default {
       var _this = this;
       getUser(this.user,function(res) {
         if (res.status === 200 && res.data.length>0) {
-          _this.$router.push("/main");
+          localStorage.setItem('user',JSON.stringify(_this.user));
+          _this.$router.push('/main');
         } else {
 
         }

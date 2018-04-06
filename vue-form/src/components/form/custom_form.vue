@@ -206,7 +206,7 @@
 <script>
 import PreviewForm from "./PreviewForm";
 import draggable from "vuedraggable";
-import { addForm, getFormById } from "api/form";
+import { addForm, getFormById, findModelById } from "api/form";
 export default {
   components: {
     draggable,
@@ -360,6 +360,7 @@ export default {
       dropForm: {
         id: 1,
         title: "表单名称",
+        from: '',
         formItems: []
       },
       curIndex: -1,
@@ -425,15 +426,25 @@ export default {
   beforeCreate: function() {},
   created: function() {
     let _this = this;
-    if (this.$route.params.id != 1) {
-      getFormById(this.$route.params.id, res => {
+    let params = this.$route.params;
+    _this.dropForm.from = params.from;
+    if(params.from == 'self'){
+      getFormById(params.id, res => {
         if (res.status === 200) {
           _this.dropForm.id = res.data._id;
           _this.dropForm.title = res.data.title;
           _this.dropForm.formItems = res.data.form;
         }
       });
-    } else {
+    }else if(params.from == 'model'){
+      findModelById(params.id, res => {
+        if (res.status === 200) {
+          _this.dropForm.id = res.data[0]._id;
+          _this.dropForm.title = res.data[0].title;
+          _this.dropForm.formItems = res.data[0].form;
+        }
+      });
+    }else{
       _this.dropForm.id = 1;
       _this.dropForm.title = "表单名称";
       _this.dropForm.formItems = [];

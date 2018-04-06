@@ -4,12 +4,14 @@ import Home from '@/components/home'
 import Login from '@/components/login/login'
 import Register from '@/components/signup/signup'
 import CustomForm from '@/components/form/custom_form'
+import dataForm from '@/components/form/data_form'
 import ModelForm from '@/components/form/model_form'
 import Help from '@/components/help/help'
 import Person from '@/components/person/person'
 import Main from '@/components/main'
 import Preview from '@/components/form/PreviewForm'
 import View from '@/components/form/view'
+import Success from '@/components/form/view'
 
 Vue.use(Router)
 
@@ -36,7 +38,7 @@ export default new Router({
       component: Register
     },
     {
-      path: '/customform/:id',
+      path: '/customform',
       name: 'customform',
       component: CustomForm
     },
@@ -56,9 +58,19 @@ export default new Router({
       component: Preview
     },
     {
+      path: 'success',
+      name: 'success',
+      component: Success
+    },
+    {
       path: '/main',
       name: 'main',
       component: Main
+    },
+    {
+      path: '/dataform/:id',
+      name: 'dataform',
+      component: dataForm
     },
     {
       path: '/person',

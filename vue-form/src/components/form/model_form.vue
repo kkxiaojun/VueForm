@@ -24,7 +24,7 @@
                 <span>{{item.title}}</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item v-for="(child,index) in item.childMenu" :key="index" :index="child.index" @click="openModel()">
+                <el-menu-item v-for="(child,index) in item.childMenu" :key="index" :index="child.index" @click="openModel(child.id)">
                   <span>{{child.title}}</span>
                 </el-menu-item>
               </el-menu-item-group>
@@ -32,33 +32,28 @@
           </el-menu>
         </el-col>
       </el-aside>
-      <div class="col1">
-        <ul class="col1-menu">
-          <li class="col1-item" v-for="(item, index) in subMenu" :key="index">{{item.title}}</li>
-        </ul>
-      </div>
       <div class="col2">
         <div class="model-box">
           <div class="btn-wrap">
-            <el-button type="primary" class="el-icon-plus">使用模板</el-button>
+            <el-button type="primary" class="el-icon-plus" @click="useModel()">使用模板</el-button>
           </div>
           <div class="content-wrap">
             <div class="logo"></div>
             <form action="" id="form" class="content-form">
               <div class="form-title">
-                <h1>经营情况报表</h1>
+                <h1>{{components.title}}</h1>
                 <div class="side">请各位店长每天22:00前登记此表，年底将作为考核依据。</div>
               </div>
               <div class="form-content">
                 <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
-                  <el-form-item v-for="(item, index) in components" :key="index">
+                  <el-form-item v-for="(item, index) in components.form" :key="index">
                     <label for="">{{item.label}}</label>
                     <el-input size="small" v-model="item.value"></el-input>
                   </el-form-item>
                 </el-form>
-                <div class="btn">
+                <!-- <div class="btn">
                   <el-button size="small" @click="save()">提交</el-button>
-                </div>
+                </div> -->
               </div>
             </form>
           </div>
@@ -68,9 +63,11 @@
   </div>
 </template>
 <script>
+import { findModels,findModelById } from "api/form";
 export default {
   data() {
     return {
+      id:'',
       labelPosition: "top",
       formLabelAlign: {
         name: "",
@@ -84,7 +81,8 @@ export default {
           childMenu: [
             {
               title: "教育",
-              index: "1-1"
+              index: "1-1",
+              id: ""
             }
           ]
         },
@@ -94,7 +92,8 @@ export default {
           childMenu: [
             {
               title: "保暖",
-              index: "2-1"
+              index: "2-1",
+              id: ""
             }
           ]
         },
@@ -104,77 +103,51 @@ export default {
           childMenu: [
             {
               title: "教育",
-              index: "3-1"
+              index: "3-1",
+              id: ""
             }
           ]
         }
       ],
-      subMenu: [
-        {
-          title: "预约定位"
-        },
-        {
-          title: "外卖点餐"
-        },
-        {
-          title: "满意度调查"
-        },
-        {
-          title: "经营情况日报表"
-        },
-        {
-          title: "会员卡登记表"
-        },
-        {
-          title: "试吃报名"
-        }
-      ],
-      components: [
-        {
-          label: "门店",
-          value:'',
-          type: "text"
-        },
-        {
-          label: "午餐人数",
-          value:'',
-          type: "text"
-        },
-        {
-          label: "晚餐人数",
-          value: '',
-          type: "text"
-        },
-        {
-          label: "团购券使用人数",
-          value: '',
-          type: "number"
-        },
-        {
-          label: "总营业额",
-          value: '',
-          type: "number"
-        },
-        {
-          label: "门店",
-          value: '',
-          type: "textarea"
-        }
-      ]
+      title: "",
+      components: []
     };
+  },
+  created: function() {
+    let _this = this;
+    findModels(res => {
+      if (res.status == 200) {
+        _this.id = res.data[0]._id
+        _this.title = res.data[0].title;
+        _this.components = res.data[0];
+        let len = _this.menu.length;
+        for (let i = 0; i < len; i++) {
+          _this.menu[i].childMenu[0].id = res.data[i]._id;
+        }
+      }
+    });
   },
   methods: {
     goBack() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
     },
-    handleOpen(key, keyPath) {
+    handleOpen(key, keyPath) {},
+    handleClose(key, keyPath) {},
+    save() {
+      this.$router.push("/custom_form" + this.id);
     },
-    handleClose(key, keyPath) {
+    openModel(id) {
+      let _this = this;
+      findModelById(id, res => {
+        if (res.status == 200) {
+          _this.id = res.data[0]._id
+          _this.title = res.data[0].title;
+          _this.components = res.data[0];
+        }
+      });
     },
-    save(){
-        this.$router.push('/custom_form'+this.id);
-    },
-    openModel() {
+    useModel(){
+      this.$router.push({name:'customform',params:{id:this.id,from:'model'}});
     }
   }
 };

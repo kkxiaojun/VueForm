@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const formDataSchema = mongoose.Schema({
+    id: String,
     title: String,
-    forms: Array
+    time: String,
+    form: Array
 })
 const formData = module.exports = mongoose.model('formData', formDataSchema)
