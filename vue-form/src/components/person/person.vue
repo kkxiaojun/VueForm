@@ -11,16 +11,44 @@
         <router-link to="/home">注销</router-link>
       </nav>
     </div>
-    <div class="person-desc">
-      <div class="in">
-        jj
+    <div class="person-content">
+    <div class="subNav-wrap">
+        <ul class="item-wrap">
+            <li class="item" :class="{'active':isActive == 1}" @click="changeActive(1)">
+              <router-link :to="{'name': 'desc'}">个人资料</router-link> 
+            </li>
+            <li class="item" :class="{'active':isActive == 2}" @click="changeActive(2)">
+              <router-link :to="{'name': 'review'}">修改密码</router-link>
+            </li>
+        </ul>
+    </div>
+    <div class="sub-content">
+      <div class="content-wrap">
+      <router-view></router-view>
       </div>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      isActive: 1
+    };
+  },
+  methods: {
+    changeActive(data) {
+      if (data == 1) {
+        this.isActive = 1;
+      }
+      if (data == 2) {
+        this.isActive = 2;
+      }
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -54,6 +82,65 @@ export default {};
         &:hover {
           color: rgb(64, 153, 226);
         }
+      }
+    }
+  }
+  .person-content {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    .subNav-wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      border-right: 1px solid #e1e1e1;
+      background: #fff;
+      overflow-x: hidden;
+      overflow-y: auto;
+      .item-wrap {
+        .item {
+          width: 100%;
+          height: 50px;
+          line-height: 50px;
+          text-align: center;
+          vertical-align: middle;
+          cursor: pointer;
+          &.active {
+            background-color: #649efd;
+            a {
+              color: #fff;
+            }
+          }
+          a {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: #676767;
+          }
+        }
+      }
+    }
+    .sub-content {
+      position: absolute;
+      left: 240px;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      min-height: 600px;
+      overflow: auto;
+      .content-wrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        overflow: auto;
+        background: #f7f7f7;
       }
     }
   }

@@ -31,4 +31,17 @@ export function addUser(user, callback) {
     })
 }
 
+export function updateUser(user, callback){
+  axios({
+    method: 'post',
+    url: '/api/user/update',
+    data: {
+      password: user.password
+    }
+  })
+    .then(res => {
+      callback(res)
+    })
+}
+
 

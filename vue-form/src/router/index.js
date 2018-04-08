@@ -8,6 +8,8 @@ import dataForm from '@/components/form/data_form'
 import ModelForm from '@/components/form/model_form'
 import Help from '@/components/help/help'
 import Person from '@/components/person/person'
+import Desc from '@/components/person/person_desc'
+import Review from '@/components/person/person_review'
 import Main from '@/components/main'
 import Preview from '@/components/form/PreviewForm'
 import View from '@/components/form/view'
@@ -75,7 +77,19 @@ export default new Router({
     {
       path: '/person',
       name: 'person',
-      component: Person
+      component: Person,
+      children:[
+        {
+          path:'desc',
+          name:'desc',
+          component:Desc
+        },
+        {
+          path:'review',
+          name:'review',
+          component:Review
+        }
+      ]
     },
     {
       path: '/help',
