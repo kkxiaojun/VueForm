@@ -51,7 +51,13 @@ node + express + mongodb + mongoose
 5. 管理员模块
 
 功能结构图
-![系统功能结构图](./demo.png)
+![系统功能结构图](./img/demo.png)
+
+## 界面预览
+![系统功能结构图](./img/login.png)
+![系统功能结构图](./img/main.png)
+![系统功能结构图](./img/drag.png)
+![系统功能结构图](./img/view.png)
 
 ## 项目启动
 1. 前端项目
